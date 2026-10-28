@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>José Saramago — Portugal entre tradição e transformação</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#efe3c8;--ink:#2b2018;--red:#b3141f;--gold:#d9b86a;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{background:#0b0908}
+body{font-family:Inter,system-ui,sans-serif;color:#eee;overflow-x:hidden}
+#track{height:1500vh}
+#stage{position:fixed;inset:0;overflow:hidden;background:#0b0908}
+canvas{position:absolute;left:50%;top:50%;width:150vmax;height:103vmax;margin:-51.5vmax 0 0 -75vmax;will-change:transform}
+#night{opacity:0}
+#cloud{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,#fff9,transparent 50%),radial-gradient(ellipse at 75% 65%,#fff8,transparent 45%)}
+#table{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,#ffbe6e59,transparent 62%),repeating-linear-gradient(90deg,#3a2415 0 140px,#241309 140px 143px,#40281a 143px 300px)}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 38%,#000c 100%);pointer-events:none}
+#bloom{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,#ffb44f66,transparent 65%);opacity:0;pointer-events:none;mix-blend-mode:screen}
+#grain{position:absolute;inset:0;opacity:.14;pointer-events:none;mix-blend-mode:overlay}
+#wrap{position:absolute;left:50%;top:50%;perspective:1800px;width:0;height:0}
+#book{position:absolute;left:0;top:0;width:min(92vw,calc(80vh*1.5));aspect-ratio:3/2;container-type:inline-size;transform-style:preserve-3d;filter:drop-shadow(0 30px 40px #000a)}
+.paper{position:absolute;inset:0;background:var(--paper);color:var(--ink);border-radius:3px;box-shadow:inset 0 0 60px #6b4a2a55;transition:background-color .7s,color .7s}
+.paper::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 46%,#0004 50%,transparent 54%)}
+.sc{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;opacity:0;pointer-events:none;color:var(--ink);transition:color .7s}
+.art{position:relative;margin:7% 5% 7% 8%;overflow:hidden;border-radius:2px;box-shadow:0 2px 10px #0006;background:#d9c9a5}
+.art svg{width:100%;height:100%;display:block}
+.txt{padding:9% 9% 9% 6%;display:flex;flex-direction:column;justify-content:center;gap:3.2cqw}
+.k{font-size:1.5cqw;letter-spacing:.3em;text-transform:uppercase;color:var(--red)}
+h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:4.6cqw;line-height:1.05}
+.txt p{font-size:2cqw;line-height:1.6;font-weight:300}
+.cover,.flip{position:absolute;top:0;right:0;width:50%;height:100%;transform-origin:left center;transform-style:preserve-3d}
+.cover>div,.flip>div{position:absolute;inset:0;backface-visibility:hidden;border-radius:0 4px 4px 0}
+.cf{background:linear-gradient(120deg,#5a1417,#340a0d);border:1px solid #0008;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3cqw;padding:5%;color:var(--gold);box-shadow:inset 0 0 0 2.2cqw #340a0d,inset 0 0 0 2.5cqw #d9b86a99}
+.cf h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:4.2cqw;letter-spacing:.14em;font-weight:700}
+.cf i{font-family:"Cormorant Garamond",Georgia,serif;font-size:2cqw;color:#e9d9b0}
+.cf svg{width:80%;position:absolute;bottom:9%}
+.cb,.flip>div{background:var(--paper);transform:rotateY(180deg)}
+.flip>.ff{transform:none;background:linear-gradient(90deg,var(--paper),var(--paper) 85%,#0003)}
+.flip{opacity:0;pointer-events:none}
+.split{display:block}
+.half{position:absolute;top:0;bottom:0;width:50%;padding:9% 6%;display:flex;flex-direction:column;justify-content:flex-end;gap:1.2cqw;font-size:1.8cqw;color:#fff}
+.half.l{left:0;background:linear-gradient(#1f4e9c99,#0b2a6af0),repeating-linear-gradient(45deg,#2a5fb0 0 14px,#1f4e9c 14px 28px)}
+.half.r{right:0;background:linear-gradient(135deg,#1c2733,#3f5668)}
+.half b{font:700 3cqw "Cormorant Garamond",serif;letter-spacing:.08em}
+.mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46%;background:var(--paper);padding:4cqw;text-align:center;font:italic 500 3.1cqw/1.25 "Cormorant Garamond",serif;box-shadow:0 0 0 .6cqw var(--red),0 10px 40px #0008}
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8vw;gap:5vh;pointer-events:none;background:radial-gradient(ellipse,#000a,transparent 75%)}
+#end p{font:italic 500 clamp(1.3rem,3.2vw,2.3rem)/1.35 "Cormorant Garamond",serif;max-width:30em;color:#f6ead0;opacity:0}
+#end small{font:300 .8rem Inter;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:0}
+#hint{position:absolute;left:0;right:0;bottom:calc(6vh + env(safe-area-inset-bottom,0px));text-align:center;font:300 .75rem Inter;letter-spacing:.35em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px #000}
+#hint b{display:block;font:italic 500 clamp(1.6rem,6vw,3rem) "Cormorant Garamond",serif;letter-spacing:.05em;text-transform:none;margin-bottom:1rem}
+#snd{position:absolute;right:14px;top:calc(14px + env(safe-area-inset-top,0px));background:#0008;color:#fff;border:1px solid #fff5;border-radius:99px;padding:.5rem .9rem;font:300 .75rem Inter;letter-spacing:.1em;z-index:5}
+#bar{position:absolute;left:0;bottom:0;height:3px;background:var(--red);width:0}
+@media(max-aspect-ratio:1/1){
+#book{width:min(90vw,calc(72vh*.72));aspect-ratio:36/52}
+.sc{grid-template-columns:1fr;grid-template-rows:38% 1fr}
+.art{margin:7% 7% 0}.txt{padding:5% 8% 8%;gap:4cqw;justify-content:flex-start}
+.k{font-size:3.2cqw}h2{font-size:9cqw}.txt p{font-size:4.6cqw}
+.cover,.flip{width:100%;left:0;right:auto}
+.paper::after{display:none}
+.cf h1{font-size:8.5cqw}.cf i{font-size:4.6cqw}
+.half{width:100%;height:50%;top:auto;bottom:auto;font-size:3.6cqw;padding:6%}.half.l{top:0;bottom:auto}.half.r{top:50%;bottom:auto;right:auto;left:0}
+.half b{font-size:6.4cqw}.mid{width:80%;font-size:6cqw;padding:5cqw}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<pattern id="az" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#f4efe3"/><g fill="none" stroke="#1f4e9c" stroke-width="1.6"><circle cx="20" cy="20" r="8"/><circle cx="20" cy="20" r="3" fill="#1f4e9c"/><path d="M20 0v8M20 32v8M0 20h8M32 20h8"/><circle cx="0" cy="0" r="7"/><circle cx="40" cy="0" r="7"/><circle cx="0" cy="40" r="7"/><circle cx="40" cy="40" r="7"/></g></pattern>
+<filter id="gr"><feTurbulence baseFrequency=".8" numOctaves="2"/><feColorMatrix values="0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0"/></filter></defs></svg>
+<div id="track"></div>
+<div id="stage">
+<canvas id="day"></canvas><div id="table" style="opacity:0"></div>
+<div id="wrap"><div id="book">
+ <div class="paper" style="opacity:0"></div>
+ <div id="scs"></div>
+ <div class="flip" id="flip"><div class="ff"></div><div></div></div>
+ <div class="cover" id="cover">
+  <div class="cf"><h1>JOSÉ<br>SARAMAGO</h1><i>Portugal entre tradição<br>e transformação</i>
+  <svg viewBox="0 0 300 60"><path fill="#d9b86a" d="M0 60V40h14V34h10v8h12V28l6-8 6 8v14h10V36h14v-8h4v-8h4v8h4v8h12V30l10-14 10 14v12h8V38h14v6h16V32h8v-6h6v6h8v12h12V40h14H300V60H0z"/></svg></div>
+  <div class="cb"></div></div>
+</div></div>
+<div id="vig"></div><div id="bloom"></div>
+<canvas id="night"></canvas>
+<div id="cloud"></div>
+<svg id="grain" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#gr)"/></svg>
+<div id="end"><p id="e1">“Para compreender Saramago, é preciso compreender também o Portugal que ele observou, questionou e transformou através da literatura.”</p><small id="e2">José Saramago — literatura, memória e transformação</small></div>
+<div id="hint"><b>Lisboa</b>role ou use as setas ← →</div>
+<button id="snd">♪ som: desligado</button><div id="bar"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s),cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),sm=x=>x*x*(3-2*x);
+// ---- aerial Lisbon (procedural)
+function city(c,night){const x=c.getContext('2d');c.width=1600;c.height=1100;let s=11;const r=()=>(s=s*16807%2147483647)/2147483647;
+x.fillStyle=night?'#06080e':'#bfa98a';x.fillRect(0,0,1600,1100);x.save();x.translate(800,520);x.rotate(-.2);x.translate(-950,-700);
+for(let gx=0;gx<1900;gx+=34)for(let gy=0;gy<1500;gy+=30){const w=22+r()*10,h=18+r()*9,k=r(),ax=gx+r()*4,ay=gy+r()*4;
+ if(night){const l=8+r()*14;x.fillStyle=`rgb(${l},${l+2},${l+8})`;x.fillRect(ax,ay,w,h);if(k<.55){x.fillStyle=`rgba(255,${170+r()*60|0},90,${.35+r()*.6})`;for(let i=0;i<3;i++)x.fillRect(ax+r()*w,ay+r()*h,2,2)}}
+ else{x.fillStyle=k<.08?'#5e7a4a':`hsl(${12+r()*14},${42+r()*12}%,${42+r()*16}%)`;x.fillRect(ax,ay,w,h);x.fillStyle='#0002';x.fillRect(ax,ay+h*.5,w,h*.5)}}
+if(night){x.strokeStyle='rgba(255,190,110,.5)';x.lineWidth=3;x.beginPath();x.moveTo(500,0);x.lineTo(1100,1500);x.stroke()}
+else{x.strokeStyle='#e8dcc2';x.lineWidth=14;x.beginPath();x.moveTo(500,0);x.lineTo(1100,1500);x.stroke()}
+x.restore();
+const g=x.createLinearGradient(0,800,0,1100);g.addColorStop(0,night?'#0a1830':'#6d93a6');g.addColorStop(1,night?'#050b18':'#3f6b84');
+x.fillStyle=g;x.beginPath();x.moveTo(0,880);x.bezierCurveTo(400,800,900,950,1600,830);x.lineTo(1600,1100);x.lineTo(0,1100);x.fill();
+if(night){for(let i=0;i<60;i++){x.fillStyle=`rgba(255,190,110,${r()*.3})`;x.fillRect(r()*1600,900+r()*190,2+r()*12,1.5)}}}
+city($('#day'),0);city($('#night'),1);
+// ---- art
+const SK="M0 60V40h14V34h10v8h12V28l6-8 6 8v14h10V36h14v-8h4v-8h4v8h4v8h12V30l10-14 10 14v12h8V38h14v6h16V32h8v-6h6v6h8v12h12V40h14H300V60H0z";
+const sky=(f,t='')=>`<path fill="${f}" transform="${t}" d="${SK}"/>`;
+function carn(){let o='';for(let i=0;i<16;i++){const X=15+Math.random()*270,Y=60+Math.random()*100,S=.7+Math.random()*.7;o+=`<g transform="translate(${X} ${Y}) scale(${S})"><path d="M0 0Q3 22-2 44" stroke="#2d5a2a" stroke-width="1.8" fill="none"/><g fill="#c1121f"><circle r="6" cx="-4" cy="-2"/><circle r="6" cx="4" cy="-2"/><circle r="6" cy="-7"/><circle r="5" cy="2"/></g><circle r="2" fill="#7a0b14" cy="-3"/></g>`}return o}
+const S=[
+{k:'Contexto histórico-cultural',h:'Portugal no século XX',t:'Portugal atravessou profundas mudanças políticas e sociais durante o século XX. A literatura tornou-se espaço de memória, resistência e reflexão.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g0" x2="0" y2="1"><stop offset="0" stop-color="#e3b98a"/><stop offset="1" stop-color="#f6e7c6"/></linearGradient><clipPath id="c0"><rect width="150" height="200"/></clipPath></defs><rect width="300" height="200" fill="url(#g0)"/><g clip-path="url(#c0)">${sky('#7a5238','translate(0 110) scale(1.3 2)')}${sky('#a37a55','translate(-40 140) scale(1.2 1.4)')}</g><g fill="#4e6b7d"><rect x="160" y="85" width="22" height="115"/><rect x="188" y="55" width="20" height="145" fill="#3d586a"/><rect x="214" y="100" width="26" height="100"/><rect x="246" y="70" width="18" height="130" fill="#3d586a"/><rect x="270" y="115" width="26" height="85"/></g><path d="M150 0V200" stroke="#fff8" stroke-dasharray="3 3"/><text x="10" y="16" font-size="9" fill="#5a3a22" font-family="serif" letter-spacing="2">ONTEM</text><text x="262" y="16" font-size="9" fill="#27404f" font-family="serif" letter-spacing="2">HOJE</text></svg>`},
+{k:'Até 1974',h:'Estado Novo',t:'Até 1974, Portugal viveu sob a ditadura do Estado Novo, marcada pela censura, repressão política e controle social.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#8a7d68"/><g transform="rotate(-4 150 100)"><rect x="40" y="14" width="220" height="176" fill="#d8cdb4"/><text x="150" y="44" text-anchor="middle" font-family="serif" font-weight="700" font-size="22" fill="#222">O DIA</text><path d="M52 52h196" stroke="#222" stroke-width="2"/><g fill="#3a3a3a"><rect x="52" y="62" width="130" height="7"/><rect x="52" y="75" width="196" height="4"/><rect x="52" y="84" width="170" height="4"/><rect x="52" y="93" width="196" height="4"/></g><g fill="#111"><rect x="52" y="108" width="196" height="6"/><rect x="52" y="118" width="196" height="6"/><rect x="52" y="128" width="120" height="6"/></g><g fill="#3a3a3a"><rect x="52" y="143" width="196" height="4"/><rect x="52" y="152" width="150" height="4"/><rect x="52" y="161" width="196" height="4"/></g></g><g transform="rotate(-14 200 150)"><rect x="140" y="132" width="120" height="30" fill="none" stroke="#b3141f" stroke-width="3"/><text x="200" y="152" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="12" fill="#b3141f">VISADO PELA CENSURA</text></g></svg>`},
+{k:'',h:'25 de abril de 1974',t:'A Revolução dos Cravos marcou o fim da ditadura e abriu caminho para a democratização de Portugal.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g2" x2="0" y2="1"><stop offset="0" stop-color="#9a9a96"/><stop offset="1" stop-color="#d8d4c8"/></linearGradient></defs><rect width="300" height="200" fill="url(#g2)"/>${sky('#555','translate(0 100) scale(1 1.7)')}${carn()}</svg>`},
+{k:'Características',h:'Uma literatura em liberdade',t:'Depois de 1974, a literatura ganhou liberdade para revisitar a história, a memória e a identidade. Surgem a crítica social, a experimentação da linguagem e o diálogo entre tradição e modernidade.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="url(#az)"/><rect y="120" width="300" height="80" fill="#6b6256"/><rect x="40" y="82" width="150" height="46" rx="6" fill="#f2b705"/><g fill="#fff6d8"><rect x="50" y="92" width="22" height="18"/><rect x="80" y="92" width="22" height="18"/><rect x="110" y="92" width="22" height="18"/><rect x="140" y="92" width="38" height="18"/></g><path d="M115 82V50M60 50h110" stroke="#222" stroke-width="2"/><circle cx="65" cy="132" r="7" fill="#222"/><circle cx="165" cy="132" r="7" fill="#222"/><g fill="#fff"><circle cx="240" cy="156" r="14"/></g><circle cx="240" cy="156" r="9" fill="#5a3a22"/></svg>`},
+{k:'Biografia',h:'José Saramago',t:'Nascido em 1922, em Azinhaga, numa família camponesa, foi serralheiro, tradutor e jornalista antes de se dedicar à literatura. Recebeu o Nobel em 1998 e morreu em 2010, em Lanzarote.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g4"><stop offset="0" stop-color="#d9b98a"/><stop offset="1" stop-color="#6e4b2c"/></radialGradient></defs><rect width="300" height="200" fill="#4a3322"/><rect x="85" y="14" width="130" height="150" fill="url(#g4)" stroke="#d9b86a" stroke-width="3"/><circle cx="150" cy="78" r="26" fill="#3a2616"/><path d="M92 164c4-42 32-54 58-54s54 12 58 54z" fill="#3a2616"/><g><rect x="12" y="150" width="62" height="12" fill="#7a1b1f"/><rect x="16" y="138" width="54" height="12" fill="#1f4e9c"/><rect x="10" y="126" width="58" height="12" fill="#c9b27a"/></g><g stroke="#e6d6b0" opacity=".7"><path d="M228 40h60M228 52h60M228 64h44M228 76h60M228 88h52"/></g><text x="150" y="184" text-anchor="middle" font-family="serif" font-style="italic" font-size="10" fill="#e6d6b0">Prémio Nobel de Literatura, 1998</text></svg>`},
+{k:'Estilo literário',h:'A voz que pensa',t:'Frases longas, pontuação mínima, diálogos sem travessões nem aspas. O narrador conta, comenta e reflete, partindo de um “e se…?” para examinar a sociedade.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#e9dcbd"/><g stroke="#3a2a1c" stroke-width="3" opacity=".75"><path d="M24 36h250M24 50h230M24 64h250M24 78h210M24 92h250M24 106h240M24 120h250M24 134h190M24 148h250M24 162h220"/></g><g fill="#b3141f"><circle cx="96" cy="37" r="2.6"/><circle cx="178" cy="51" r="2.6"/><circle cx="130" cy="79" r="2.6"/><circle cx="214" cy="93" r="2.6"/><circle cx="70" cy="121" r="2.6"/><circle cx="190" cy="149" r="2.6"/></g><text x="24" y="188" font-family="serif" font-style="italic" font-size="9" fill="#7a1b1f">vírgulas no lugar dos pontos, vozes sem aspas</text></svg>`},
+{k:'Romance, 1995',h:'Ensaio sobre a Cegueira',t:'Uma epidemia de cegueira branca atinge uma cidade sem nome. Entre o confinamento e o colapso das regras, o romance expõe a fragilidade da civilização e pergunta o que nos torna humanos.',
+ a:`<svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g6"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#d4d0c4"/></radialGradient></defs><rect width="300" height="200" fill="url(#g6)"/><g fill="#2b2b2b"><circle cx="90" cy="120" r="9"/><path d="M76 168c0-30 6-40 14-40s14 10 14 40z"/><circle cx="150" cy="116" r="9"/><path d="M136 168c0-30 6-40 14-40s14 10 14 40z"/><circle cx="210" cy="122" r="9"/><path d="M196 168c0-30 6-40 14-40s14 10 14 40z"/></g><path d="M95 52Q150 12 205 52Q150 92 95 52Z" fill="none" stroke="#999" stroke-width="2"/><circle cx="150" cy="52" r="15" fill="#fff" stroke="#999" stroke-width="2"/></svg>`},
+{split:1,m:'Portugal entre o que permanece e o que se transforma.'}];
+const scs=$('#scs');S.forEach((d,i)=>{const e=document.createElement('div');e.className='sc'+(d.split?' split':'');
+ e.innerHTML=d.split?`<div class="half l rv"><b>TRADIÇÃO</b>azulejos · arquitetura histórica<br>literatura · costumes portugueses</div><div class="half r rv"><b>MODERNIDADE</b>cidade contemporânea · novas ideias<br>mudanças sociais e urbanas</div><div class="mid rv">“${d.m.replace(/\.$/,'')}.”</div>`
+ :`<div class="art rv">${d.a}</div><div class="txt"><div class="k rv">${d.k}</div><h2 class="rv">${d.h}</h2><p class="rv">${d.t}</p></div>`;scs.append(e)});
+const sc=[...document.querySelectorAll('.sc')],A=i=>.36+.064*i;
+// ---- sound
+let ac,wg,on=false;
+function nb(f,d,v){if(!on)return;const b=ac.createBuffer(1,ac.sampleRate*d,ac.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=(Math.random()*2-1)*(1-i/a.length);const s=ac.createBufferSource(),h=ac.createBiquadFilter(),g=ac.createGain();h.type='highpass';h.frequency.value=f;g.gain.value=v;s.buffer=b;s.connect(h).connect(g).connect(ac.destination);s.start()}
+$('#snd').onclick=()=>{on=!on;if(!ac){ac=new(window.AudioContext||window.webkitAudioContext)();const b=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=ac.createBufferSource(),f=ac.createBiquadFilter();s.buffer=b;s.loop=true;f.type='bandpass';f.frequency.value=450;f.Q.value=.5;wg=ac.createGain();wg.gain.value=0;s.connect(f).connect(wg).connect(ac.destination);s.start()}ac.resume();$('#snd').textContent='♪ som: '+(on?'ligado':'desligado')};
+// ---- timeline
+const mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(),root=document.documentElement;let cur=-1;
+function upd(){const H=innerHeight,p=cl(scrollY/(document.body.scrollHeight-H)),por=H>innerWidth;
+ // camera descent
+ const f=sm(cl(p/.13));$('#day').style.transform=`translateY(${-f*7}%) scale(${1+f*4.4})`;$('#day').style.filter=`blur(${f*5}px)`;
+ $('#day').style.opacity=1-sm(cl((p-.09)/.05));$('#cloud').style.opacity=1-cl(p/.05);$('#hint').style.opacity=1-cl(p/.04);
+ $('#table').style.opacity=sm(cl((p-.05)/.06));
+ // book
+ const ap=sm(cl((p-.1)/.16)),o0=sm(cl((p-.27)/.08)),c=sm(cl((p-.885)/.05)),o=o0*(1-c);
+ const W=$('#wrap').style;W.opacity=sm(cl((p-.09)/.04))*(1-sm(cl((p-.925)/.04)));
+ $('#book').style.transform=`translate(${-50-(por?0:25*(1-o))}%,-50%) rotateX(${55*(1-ap)}deg) scale(${(.3+.75*ap)*(1-.3*c)})`;
+ $('.paper').style.opacity=cl(o*3);const cv=$('#cover').style;cv.transform=`rotateY(${-180*o}deg)`;cv.opacity=o>.995?0:1;cv.pointerEvents='none';
+ // scenes
+ let ci=-1;sc.forEach((e,i)=>{const a=A(i),al=Math.min(cl((p-(a-.012))/.012),1-cl((p-(a+.052))/.012)),end=i==7?1-cl((p-.875)/.01):1;
+  e.style.opacity=al*end;if(al>.5)ci=i;
+  e.querySelectorAll('.rv').forEach((r,k)=>{const v=cl((p-a-.004*k)/.02);r.style.opacity=v;r.style.transform=`translateY(${(1-v)*14}px)`;r.style.filter=`blur(${(1-v)*3}px)`})});
+ // page-turn leaf
+ let fl=0;for(let i=1;i<8;i++){const q=(p-(A(i)-.032))/.04;if(q>0&&q<1)fl=q}
+ const L=$('#flip').style;L.opacity=fl?1:0;L.transform=`rotateY(${-180*sm(fl)}deg)`;L.filter=`brightness(${1-.35*Math.sin(fl*Math.PI)})`;
+ // light theme
+ let lt=1;if(ci==1)lt=0;else if(ci==2)lt=cl((p-A(2))/.025);
+ root.style.setProperty('--paper',`rgb(${mix([37,33,29],[239,227,200],lt)})`);root.style.setProperty('--ink',`rgb(${mix([216,204,184],[43,32,24],lt)})`);
+ $('#bloom').style.opacity=ci==2?lt*.45:0;
+ // night + end
+ const nf=sm(cl((p-.915)/.07));$('#night').style.opacity=nf;$('#night').style.transform=`scale(${2.6-1.6*nf})`;
+ $('#e1').style.opacity=cl((p-.95)/.025);$('#e2').style.opacity=cl((p-.975)/.02);
+ $('#bar').style.width=p*100+'%';
+ if(ci!=cur&&ci>=0){cur=ci;nb(900,.5,.35);let n=0;const t=setInterval(()=>{nb(2500,.03,.25);if(++n>10)clearInterval(t)},90)}
+ if(wg)wg.gain.setTargetAtTime(on?.14*(1-cl(p*5))+.015:0,ac.currentTime,.3)}
+// ---- navegação por setas + encaixe automático
+const ST=[0,...Array.from({length:8},(_,i)=>A(i)+.0318),1];let cs=0,tmr,busy=false;
+const maxS=()=>document.body.scrollHeight-innerHeight;
+function go(i){cs=Math.max(0,Math.min(ST.length-1,i));busy=true;scrollTo({top:ST[cs]*maxS(),behavior:'smooth'})}
+addEventListener('keydown',e=>{const k=e.key;
+ if(['ArrowRight','ArrowDown','PageDown',' '].includes(k)){e.preventDefault();go(cs+1)}
+ else if(['ArrowLeft','ArrowUp','PageUp'].includes(k)){e.preventDefault();go(cs-1)}
+ else if(k==='Home'){e.preventDefault();go(0)}else if(k==='End'){e.preventDefault();go(ST.length-1)}});
+addEventListener('scroll',()=>{clearTimeout(tmr);tmr=setTimeout(()=>{
+ const p=cl(scrollY/maxS());
+ if(busy){busy=false;if(Math.abs(p-ST[cs])<.004)return}
+ if(Math.abs(p-ST[cs])<.004)return;
+ const gap=.064;let n;
+ if(Math.abs(p-ST[cs])>gap*.7){n=ST.reduce((b,v,i)=>Math.abs(v-p)<Math.abs(ST[b]-p)?i:b,0)}
+ else n=cs+(p>ST[cs]?1:-1);
+ go(n)},220)},{passive:true});
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+</script></body></html>
